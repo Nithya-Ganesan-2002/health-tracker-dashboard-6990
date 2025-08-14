@@ -1,14 +1,21 @@
 const express = require('express');
 const healthController = require('../controllers/health');
 
-const router = express.Router();
-// Health endpoint
+const authRoutes = require('./auth');
+const caloriesRoutes = require('./calories');
+const workoutsRoutes = require('./workouts');
+const dashboardRoutes = require('./dashboard');
+const insightsRoutes = require('./insights');
 
+const router = express.Router();
+
+// Root health endpoint
 /**
  * @swagger
  * /:
  *   get:
  *     summary: Health endpoint
+ *     tags: [Health]
  *     responses:
  *       200:
  *         description: Service health check passed
@@ -31,5 +38,12 @@ const router = express.Router();
  *                   example: development
  */
 router.get('/', healthController.check.bind(healthController));
+
+// Mount versioned API routes
+router.use('/api/auth', authRoutes);
+router.use('/api/calories', caloriesRoutes);
+router.use('/api/workouts', workoutsRoutes);
+router.use('/api/dashboard', dashboardRoutes);
+router.use('/api/insights', insightsRoutes);
 
 module.exports = router;
